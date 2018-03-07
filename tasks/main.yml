@@ -8,10 +8,6 @@
   when:
     - mysql_import_dumps | length > 0
   tags: mysql-import
-
-- name: debug output
-  shell: sudo find / -name {{ item.filename }}
-  with_items: "{{ mysql_import_dumps }}"
   
   # Copy database dump file to remote host
 - name: Copy database dump file
