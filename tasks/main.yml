@@ -10,7 +10,7 @@
   tags: mysql-import
 
 - name: debug output
-  shell: ls -la "{{ local_dump_folder }}{{ item.filename }}"
+  shell: sudo find / -name {{ item.filename }}
   with_items: "{{ mysql_import_dumps }}"
   
   # Copy database dump file to remote host
