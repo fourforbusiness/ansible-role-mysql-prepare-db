@@ -26,6 +26,10 @@ script:
   - >
     sudo docker exec ${container_id} mysql -u root -proot -h 127.0.0.1 -e 'SELECT color FROM mysql_prepare_db.test_table WHERE mysql_prepare_db.test_table.name = 'color_3';'
     | grep -q 'not_a_color'
+  # Check 8th entry
+  - >
+    sudo docker exec ${container_id} mysql -u root -proot -h 127.0.0.1 -e 'SELECT color FROM mysql_prepare_db.test_table WHERE mysql_prepare_db.test_table.id = '8';'
+    | grep -q 'bordeaux'
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

@@ -1,1 +1,1 @@
-INSERT INTO `mysql_prepare_db`.`test_table` VALUES ('color_10','cyan',1),('color_20','ocre',0),('color_30','vanilla',1),('color_40','bordeaux',0);
+INSERT INTO `mysql_prepare_db`.`test_table` VALUES (5,'color_10','cyan',1),(6,'color_20','ocre',0),(7,'color_30','vanilla',1),(8,'color_40','bordeaux',0);
