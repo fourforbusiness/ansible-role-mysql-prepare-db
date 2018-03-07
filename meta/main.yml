@@ -9,7 +9,12 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - all
+        - 1604
+        - 1404
+    - name: Debian
+      versions:
+        - 9
+        - 8
   galaxy_tags:
     - database
     - mysql
