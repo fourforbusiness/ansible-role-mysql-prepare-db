@@ -8,25 +8,25 @@
     local_dump_folder: "{{ role_path }}/tests/"
     mysql_import_dumps:
       - filename: test_dump.sql
-        database: test_database
+        database: mysql_prepare_db
         replacements:
           - pattern: orange
             replacement: not_a_color
     mysql_additional_scripts:
       - filename: additional_script.sql
-        database: test_database
+        database: mysql_prepare_db
     # --------------------------------
     # mysql
     # --------------------------------
     mysql_enabled_on_startup: true
     mysql_databases:
-      - name: test_database
+      - name: mysql_prepare_db
         encoding: latin1
         collation: latin1_general_ci
     mysql_users:
       - name: mysql_test_user
         host: "%"
         password: mysql_test_password
-        priv: '*.*:ALL'
+        priv: 'mysql_prepare_db.*:ALL'
   roles:
     - role_under_test
