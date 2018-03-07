@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `test` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `test`;
+CREATE DATABASE  IF NOT EXISTS `mysql_prepare_db` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `mysql_prepare_db`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: localhost    Database: test
+-- Host: localhost    Database: mysql_prepare_db
 -- ------------------------------------------------------
 -- Server version	5.6.34-log
 

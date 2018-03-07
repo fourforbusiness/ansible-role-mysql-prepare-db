@@ -16,15 +16,15 @@ script:
 
   # Check if our database was created
   - >
-    sudo docker exec ${container_id} mysql -u root -pmysql_prepare_db -h 127.0.0.1 -e 'show databases;'
+    sudo docker exec ${container_id} mysql -u root -proot -h 127.0.0.1 -e 'show databases;'
     | grep -q 'mysql_prepare_db'
   # Check if the dump was imported and the additional script was executed
   - >
-    sudo docker exec ${container_id} mysql -u root -pmysql_prepare_db -h 127.0.0.1 -e 'SELECT * FROM mysql_prepare_db.test_table;'
+    sudo docker exec ${container_id} mysql -u root -proot -h 127.0.0.1 -e 'SELECT * FROM mysql_prepare_db.test_table;'
     | grep -q '8 row(s) returned'
   # Check if the replacements have been applied
   - >
-    sudo docker exec ${container_id} mysql -u root -pmysql_prepare_db -h 127.0.0.1 -e 'SELECT color FROM mysql_prepare_db.test_table WHERE mysql_prepare_db.test_table.name = 'color_3';'
+    sudo docker exec ${container_id} mysql -u root -proot -h 127.0.0.1 -e 'SELECT color FROM mysql_prepare_db.test_table WHERE mysql_prepare_db.test_table.name = 'color_3';'
     | grep -q 'not_a_color'
 
 notifications:
