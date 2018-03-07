@@ -6,7 +6,7 @@ A collection of tasks that can be used as a toolset to prepare the target machin
 
 ## Requirements
 
-There has to be a MySQL-Server available on the Targetmachine.
+None.
 
 ## Role Variables
 
@@ -32,7 +32,7 @@ The additional mysql-scripts to execute (this is only executed if at least 1 dum
 
 ## Dependencies
 
-None
+- [geerlingguy.mysql](https://galaxy.ansible.com/geerlingguy/mysql/)
 
 ## Example Playbook
 

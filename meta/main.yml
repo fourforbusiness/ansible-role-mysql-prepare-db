@@ -18,4 +18,6 @@ galaxy_info:
   galaxy_tags:
     - database
     - mysql
-dependencies: []
+allow_duplicates: false
+dependencies:
+  - { role: geerlingguy.mysql }
