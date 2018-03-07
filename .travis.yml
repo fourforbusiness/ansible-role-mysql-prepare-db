@@ -14,7 +14,7 @@ script:
   - chmod +x ${PWD}/tests/test.sh
 
   - "${PWD}/tests/test.sh"
-  - "ls -la etc/ansible/roles"
+  - "ls -la ${PWD}/tests"
 
   # Check if our database was created
   #- >
