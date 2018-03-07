@@ -14,8 +14,6 @@ script:
   - chmod +x ${PWD}/tests/test.sh
 
   - "${PWD}/tests/test.sh"
-  - "ls -la ${PWD}/tests"
-  - "echo ${PWD}"
 
   # Check if our database was created
   #- >

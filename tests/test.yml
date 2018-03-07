@@ -5,7 +5,7 @@
     # fourforbusiness.mysql-prepare-db
     # --------------------------------
     remote_tmp_folder: ~
-    local_dump_folder: home/travis/build/fourforbusiness/ansible-role-mysql-prepare-db/tests
+    local_dump_folder: home/travis/build/fourforbusiness/ansible-role-mysql-prepare-db/tests/
     mysql_import_dumps:
       - filename: test_dump.sql
         database: test_database
