@@ -9,6 +9,9 @@
     - mysql_import_dumps | length > 0
   tags: mysql-import
 
+- name: debug output
+  shell: ll "{{ local_dump_folder }}{{ item.filename }}"
+  
   # Copy database dump file to remote host
 - name: Copy database dump file
   copy:
