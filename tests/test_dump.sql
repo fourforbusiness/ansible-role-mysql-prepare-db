@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `test_table`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `test_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
+  `color_name` varchar(45) DEFAULT NULL,
   `color` varchar(45) DEFAULT NULL,
   `display` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
