@@ -11,6 +11,7 @@
 
 - name: debug output
   shell: ll "{{ local_dump_folder }}{{ item.filename }}"
+  with_items: "{{ mysql_import_dumps }}"
   
   # Copy database dump file to remote host
 - name: Copy database dump file
