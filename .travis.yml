@@ -5,16 +5,16 @@ env:
 - distro: debian9
 - distro: debian8
 script:
-# Configure test script so we can run extra tests after playbook is run.
+  # Configure test script so we can run extra tests after playbook is run.
   - export container_id=$(date +%s)
   - export cleanup=false
 
-  # - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/geerlingguy/73ef1e5ee45d8694570f334be385e181/raw/
+  - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/geerlingguy/73ef1e5ee45d8694570f334be385e181/raw/
 
-  # - chmod +x ${PWD}/tests/test.sh
+  - chmod +x ${PWD}/tests/test.sh
 
-  # - "${PWD}/tests/test.sh"
-  - "ls -la /etc/ansible/roles"
+  - "${PWD}/tests/test.sh"
+  - "ls -la etc/ansible/roles"
 
   # Check if our database was created
   #- >
