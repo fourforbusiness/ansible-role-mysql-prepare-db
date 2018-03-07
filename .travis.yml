@@ -17,15 +17,15 @@ script:
 
 # Check if our database was created
   - >
-    sudo docker exec ${container_id} mysql -u root -ptest -h 127.0.0.1 -e 'show databases;'
+    sudo docker exec ${container_id} mysql -u root -ptest_database -h 127.0.0.1 -e 'show databases;'
     | grep -q 'test'
 # Check if the dump was imported and the additional script was executed
   - >
-    sudo docker exec ${container_id} mysql -u root -ptest -h 127.0.0.1 -e 'SELECT * FROM test.test_table;'
+    sudo docker exec ${container_id} mysql -u root -ptest_database -h 127.0.0.1 -e 'SELECT * FROM test.test_table;'
     | grep -q '8 row(s) returned'
 # Check if the replacements have been applied
   - >
-    sudo docker exec ${container_id} mysql -u root -ptest -h 127.0.0.1 -e 'SELECT color FROM test.test_table WHERE test.test_table.name = 'color_3';'
+    sudo docker exec ${container_id} mysql -u root -ptest_database -h 127.0.0.1 -e 'SELECT color FROM test.test_table WHERE test.test_table.name = 'color_3';'
     | grep -q 'not_a_color'
 
 notifications:
