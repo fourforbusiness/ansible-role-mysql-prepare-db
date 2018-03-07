@@ -12,10 +12,7 @@ script:
   - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/geerlingguy/73ef1e5ee45d8694570f334be385e181/raw/
 
   - chmod +x ${PWD}/tests/test.sh
-
   - "${PWD}/tests/test.sh"
-  
-  - "docker exec $container_id env TERM=xterm env DEFAULT_DEBUG=1 ANSIBLE_FORCE_COLOR=1 ansible-playbook /etc/ansible/roles/role_under_test/tests/$playbook"
 
   # Check if our database was created
   #- >
