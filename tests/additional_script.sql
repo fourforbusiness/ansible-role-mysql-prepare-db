@@ -1,0 +1,1 @@
+INSERT INTO `test_table` VALUES ('color_10','cyan',1),('color_20','ocre',0),('color_30','vanilla',1),('color_40','bordeaux',0);

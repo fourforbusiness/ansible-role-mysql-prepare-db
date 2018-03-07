@@ -1,0 +1,37 @@
+---
+- hosts: all
+  vars:
+    # --------------------------------
+    # fourforbusiness.mysql-prepare-db
+    # --------------------------------
+    remote_tmp_folder: ~
+    local_dump_folder: /etc/ansible/roles/role_under_test/tests/
+    mysql_import_dumps:
+      - filename: /etc/ansible/roles/role_under_test/tests/test_dump.sql
+        database: test_database
+        replacements:
+          - pattern: orange
+            replacement: not_a_color
+    mysql_additional_scripts:
+      - filename: /etc/ansible/roles/role_under_test/tests/additional_script.sql
+        database: test_database
+    # --------------------------------
+    # mysql
+    # --------------------------------
+    mysql_enabled_on_startup: 
+    mysql_packages:
+      - mysql-server
+      - mysql-client
+    mysql_root_password: test_database
+    mysql_databases:
+      - name: test_database
+        encoding: latin1
+        collation: latin1_general_ci
+    mysql_users:
+      - name: test_database
+        host: "%"
+        password: test_database
+        priv: "test_database.*:ALL"
+  roles:
+    - geerlingguy.mysql
+    - role_under_test

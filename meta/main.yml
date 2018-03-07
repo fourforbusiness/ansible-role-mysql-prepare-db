@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: "4fb"
+  description: Imports database dumps, executes additional MySQL Scripts and can replace specific text parts in the dumps
+  company: "four for business AG"
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.4
+  github_branch: master
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - database
+    - mysql
+dependencies: []

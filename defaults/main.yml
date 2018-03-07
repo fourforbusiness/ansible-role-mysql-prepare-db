@@ -1,0 +1,5 @@
+---
+remote_tmp_folder: /tmp
+local_dump_folder: dumps/
+mysql_import_dumps: { }
+mysql_additional_scripts: { }

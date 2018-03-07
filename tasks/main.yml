@@ -1,0 +1,112 @@
+---
+  # get file stats
+- name: get file stat of local sql-dump file to be able to perform a check in the following task
+  stat:
+    path: "{{ local_dump_folder }}{{ item.filename }}"
+  register: db_dump_files_local
+  with_items: "{{ mysql_import_dumps }}"
+  when:
+    - mysql_import_dumps | length > 0
+  tags: mysql-import
+
+  # Copy database dump file to remote host
+- name: Copy database dump file
+  copy:
+    src: "{{ local_dump_folder }}{{ item.0.filename }}"
+    dest: "{{ remote_tmp_folder }}"
+    force: false
+  with_together:
+    - "{{ mysql_import_dumps }}"
+    - "{{ db_dump_files_local.results }}"
+  when:
+    - mysql_import_dumps | length > 0
+    - item.1.stat.exists
+  register: copy_sql_dumps
+  tags: mysql-import
+
+- name: get file stat of remote sql-dump file to be able to perform a check in the following task
+  stat:
+    path: "{{ remote_tmp_folder }}/{{ item.filename }}"
+  register: db_dump_files_remote
+  with_items: "{{ mysql_import_dumps }}"
+  when:
+    - mysql_import_dumps | length > 0
+    - copy_sql_dumps.changed
+  tags: mysql-import
+
+- name: replace specific parts of the sql-dump
+  replace:
+    path: /tmp/{{ item.0.filename }}
+    regexp: item.1.pattern
+    replace: item.1.replacement
+  with_subelements:
+    - "{{ mysql_import_dumps }}"
+    - replacements
+    - skip_missing: true
+  when:
+    - copy_sql_dumps.changed
+
+  # import db on remote host
+- name: Restore database
+  mysql_db:
+    state: import
+    name: "{{ item.0.database }}"
+    target: "{{ remote_tmp_folder }}/{{ item.0.filename }}"
+    login_user: "{{ mysql_users.0.name }}"
+    login_password: "{{ mysql_users.0.password }}"
+  with_together:
+    - "{{ mysql_import_dumps }}"
+    - "{{ db_dump_files_remote.results }}"
+  when:
+    - mysql_import_dumps | length > 0
+    - copy_sql_dumps.changed
+    - item.1.stat.exists
+  tags: mysql-import
+
+  # the two following steps only executed if one or more dump files are given
+    # get file stats
+- name: get file stat of local files
+  stat:
+    path: "{{ local_dump_folder }}{{ item.filename }}"
+  register: mysql_additional_scripts_local
+  with_items: "{{ mysql_additional_scripts }}"
+  when:
+    - mysql_additional_scripts | length > 0
+    - copy_sql_dumps.changed
+  tags: mysql-import
+
+- name: copy additional sql-scripts
+  copy:
+    src: "{{ local_dump_folder }}{{ item.0.filename }}"
+    dest: "{{ remote_tmp_folder }}/{{ item.0.filename }}"
+    force: false
+  with_together:
+    - "{{ mysql_additional_scripts }}"
+    - "{{ mysql_additional_scripts_local.results }}"
+  when:
+    - copy_sql_dumps.changed
+    - mysql_import_dumps | length > 0
+    - mysql_additional_scripts | length > 0
+    - item.1.stat.exists
+  tags: mysql-import
+
+- name: execute additional sql-scripts
+  mysql_db:
+    state: import
+    name: "{{ item.0.database }}"
+    target: "{{ remote_tmp_folder }}/{{ item.0.filename }}"
+    login_user: "{{ mysql_users.0.name }}"
+    login_password: "{{ mysql_users.0.password }}"
+  with_together:
+    - "{{ mysql_additional_scripts }}"
+    - "{{ mysql_additional_scripts_local.results }}"
+  when:
+    - copy_sql_dumps.changed
+    - mysql_import_dumps | length > 0
+    - mysql_additional_scripts | length > 0
+    - item.1.stat.exists
+  tags: mysql-import
+  # we ignore errors because we do not care if tables do not exist
+  # if this step fails, there is either an error in the sql-script or
+  # there was no database imported
+  ignore_errors: yes
