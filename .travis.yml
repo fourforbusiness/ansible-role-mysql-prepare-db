@@ -14,6 +14,8 @@ script:
   - chmod +x ${PWD}/tests/test.sh
 
   - "${PWD}/tests/test.sh"
+  
+  - "docker exec $container_id env TERM=xterm env DEFAULT_DEBUG=1 ANSIBLE_FORCE_COLOR=1 ansible-playbook /etc/ansible/roles/role_under_test/tests/$playbook"
 
   # Check if our database was created
   #- >
