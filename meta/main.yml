@@ -9,11 +9,11 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - 1604
-        - 1404
+        - trusty
+        - xenial
     - name: Debian
       versions:
-        - 8
+        - jessie
   galaxy_tags:
     - database
     - mysql
