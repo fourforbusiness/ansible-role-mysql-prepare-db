@@ -13,7 +13,6 @@ galaxy_info:
         - 1404
     - name: Debian
       versions:
-        - 9
         - 8
   galaxy_tags:
     - database
