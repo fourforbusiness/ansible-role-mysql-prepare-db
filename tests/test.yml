@@ -10,8 +10,8 @@
       - filename: test_dump.sql
         database: mysql_prepare_db
         replacements:
-          - pattern: orange
-            replacement: not_a_color
+          - pattern: "orange"
+            replacement: "not_a_color"
     mysql_additional_scripts:
       - filename: additional_script.sql
         database: mysql_prepare_db

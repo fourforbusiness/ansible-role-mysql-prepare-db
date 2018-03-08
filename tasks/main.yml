@@ -36,9 +36,9 @@
 
 - name: replace specific parts of the sql-dump
   replace:
-    path: /tmp/{{ item.0.filename }}
-    regexp: item.1.pattern
-    replace: item.1.replacement
+    path: "{{ remote_tmp_folder }}/{{ item.0.filename }}"
+    regexp: "({{ item.1.pattern }})"
+    replace: "{{ item.1.replacement }}"
   with_subelements:
     - "{{ mysql_import_dumps }}"
     - replacements
