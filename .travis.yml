@@ -4,34 +4,30 @@ env:
 - distro: ubuntu1404
 - distro: debian8
 script:
-  # Configure test script so we can run extra tests after playbook is run.
-  - export container_id=$(date +%s)
-  - export cleanup=false
+- export container_id=$(date +%s)
+- export cleanup=false
+- wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/geerlingguy/73ef1e5ee45d8694570f334be385e181/raw/
+- chmod +x ${PWD}/tests/test.sh
+- "${PWD}/tests/test.sh"
+- 'sudo docker exec ${container_id} sudo mysql -u root -proot -h 127.0.0.1 -e ''show
+  databases;'' | grep -q ''mysql_prepare_db''
 
-  - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/geerlingguy/73ef1e5ee45d8694570f334be385e181/raw/
+'
+- 'sudo docker exec ${container_id} sudo mysql -u root -proot -h 127.0.0.1 -e ''SELECT
+  count(*) FROM `mysql_prepare_db`.`test_table`;'' | grep -q ''8''
 
-  - chmod +x ${PWD}/tests/test.sh
-  - "${PWD}/tests/test.sh"
+'
+- 'sudo docker exec ${container_id} sudo mysql -u root -proot -h 127.0.0.1 -e ''SELECT
+  `color` FROM `mysql_prepare_db`.`test_table` WHERE `color_name` = "color_3"'' |
+  grep -q ''not_a_color''
 
-  # Check if our database was created
-  - >
-    sudo docker exec ${container_id} sudo mysql -u root -proot -h 127.0.0.1 -e 'show databases;'
-    | grep -q 'mysql_prepare_db'
-  # Check if the dump was imported and the additional script was executed
-  - >
-    sudo docker exec ${container_id} sudo mysql -u root -proot -h 127.0.0.1 -e 'SELECT count(*) FROM `mysql_prepare_db`.`test_table`;'
-    | grep -q '8'
-  # Check if the replacements have been applied
-  - >
-    sudo docker exec ${container_id} sudo mysql -u root -proot -h 127.0.0.1 -e 'SELECT `color` FROM `mysql_prepare_db`.`test_table` WHERE `color_name` = "color_3"'
-    | grep -q 'not_a_color'
-  # Check 8th entry
-  - >
-    sudo docker exec ${container_id} sudo mysql -u root -proot -h 127.0.0.1 -e 'SELECT `color` FROM `mysql_prepare_db`.`test_table` WHERE `id` = 8;'
-    | grep -q 'bordeaux'
+'
+- 'sudo docker exec ${container_id} sudo mysql -u root -proot -h 127.0.0.1 -e ''SELECT
+  `color` FROM `mysql_prepare_db`.`test_table` WHERE `id` = 8;'' | grep -q ''bordeaux''
 
+'
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
   slack:
     rooms:
-      secure: CBmTnQ9Vvb8C7Jyid5FFaX6wF7aLJN9c30VupwkiQYAaXH5xE4samcPWXSu+OkKtOvpSqs3zVcSPryn8CE3UFeo9Y+u16FH0Ax92T7g4SCiGx4BQfsmKGmg3NVeLr9CUqdWcAcxxhUmD1s5YH7PgcGgy4bVqGyzQrMSyeAEIM1EuOnTO1SE0UGQzz7sF6wFZn1orRKFjHVEepISmyrMLKgocs5iqlmQ9rHx8JbAsIMGzx04ZlUmRbXQ8jVqSCBxcAA0pW+m/jz7C83DudKVqB8MPvqUfviGgX6xcnf8ohhU6AHJc2jyYQyoXwkw1hyiAUJ/X4RF22CUG6sBGxOq7cOFOLnlxNw4/nnUae5EqKRywTT1Y9dD8fX4FyC/c1laXCnon+YZ5Qzx48asolKHhwfyKi1XZ6VAD1/0D7jcPhZndPSoRiTVyOVAR/ZOrN9zVPTz6hUozRezJEeYqzcRS6U+a+gh5xLFU9pmNa3jyFnFu/uz56H2gtGlrZXG3BkVgbqjq0sdgSN5384ryscauiGPMJbWBApzbIkGfzWymCFXqoO6lFKjnmOjLICzvicHZnxa7H6Zyj391kJQUoYnWrRDAOjj/3sto4U5KNlV+Oz6ZQ2gDyswVzhX7aBThLv+gfpi/u5KdVAndDHLoPAZjDq62emifL5RTKx8DMdo2AOw=
+      secure: ElgO8hMtyXcvi1aIgDL9r7Poi2PL98fyhCiWA8u1ypgMmLsmFclFPxwHEgCCJDEeHInEExHqDG7+mZy1s+Haoj2bxfZBFP6sDGkkPrQ7CIRx7WY8VE4vnLxkDBqwUChPXHc60Tz5CHCf/jHZIT3edXp5rOGctKP3tzsp/DoVAsz7dwUso4df4/HgzFAFUb8gDTYTYlC3pk3SV7WiYZB72oBBpVZmhrrpD20DndSCF/FhVQjqUjXwrrz8XvNGmc/edRnE713WyZMOVl5PJspWkzBvbuWXmo6m23Mj9k+qZ41YByfyjlFuPAABYuN46wMN8BhBhqPlEUyjQM53WNItOjw/FQbfrPpzCTU9U+mcX4hZuhrmatU/ONiSQacxVAWCN3eyi2cWkRH2lgG93lcF7bxOyFGcQocXU18BCcE2eGnWKhbgxyQG2HEDYZRj/W8cmDh4NXilvT84c+9cRT2WArc1h5MuswODFiyOU6JN9tb5hEbn91wYvG0dCFZ8p1Es/uL30RNeU2Bijo2raNkg4ltWeVSyfr4r8zJCI4p/7izJ93NXX3zUY5uHj1WBqBEeRWicKdOJS+zbGcMkbvw2YlBHg5LNioSsKkjAKCI2fFei9cn/bz0HxtDEaiG4VCCUww6UGHzVN71SkdCkY2MD7i4dp7tYBPWWk9XE7Ptqq70=
