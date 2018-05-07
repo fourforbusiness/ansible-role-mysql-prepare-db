@@ -1,6 +1,6 @@
 # Ansible Role: SQL Prepare DB
 
-[![Build Status](https://api.travis-ci.org/fourforbusiness/ansible-role-mysql-prepare-db.svg?branch=master)](https://api.travis-ci.org/fourforbusiness/ansible-role-mysql-prepare-de)
+[![Build Status](https://api.travis-ci.org/fourforbusiness/ansible-role-mysql-prepare-db.svg?branch=master)](https://api.travis-ci.org/fourforbusiness/ansible-role-mysql-prepare-de) [![Ansible-Galaxy](https://img.shields.io/ansible/role/24231.svg)](https://galaxy.ansible.com/fourforbusiness/mysql-prepare-db/) ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
 A collection of tasks that can be used as a toolset to prepare the target machines MySQL-Database.
 
